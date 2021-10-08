@@ -6,7 +6,7 @@ set -e
 npm run build
 
 # 移動至到打包後的dist目錄 
-# cd dist
+cd dist
 
 # 因為dist資料夾預設是被ignore的，因此在進入dist資料夾後初始化git
 # git init 
