@@ -9,9 +9,9 @@ npm run build
 cd dist
 
 # 因為dist資料夾預設是被ignore的，因此在進入dist資料夾後初始化git
-git init 
+# git init 
 git add -A
-git commit -m 'deploy'
+git commit -m 'Deploy v1.0.1'
 
 # 將 dist資料夾中的內容推送至遠端 ScrollStoryMapBox main分支中，並強制無條件將舊有的內容取代成目前的內容（指令 git push -f)
 git push -f https://github.com/ingridkao/ScrollStoryMapBox.git master:github-pages

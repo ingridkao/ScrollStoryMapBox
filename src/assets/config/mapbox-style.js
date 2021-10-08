@@ -102,7 +102,7 @@ export const taipeiAccident = {
 }
 
 export const taipeiAccidentHeat = {
-    id: 'taipei_accident_heat',
+    id: 'taipei_accident_heat_layer',
     source: 'taipei_accident',
     type: 'heatmap',
     paint: {
@@ -141,6 +141,19 @@ export const taipeiAccidentHeat = {
     }
 }
 
+export const pointStyle = {
+    id: 'my_accident',
+    source: 'my_accident',
+    type: 'circle',
+    paint: {
+        'circle-color': '#ad5a5a',
+        'circle-radius': 4
+    },
+    layout: {
+        'visibility': 'none'
+    }
+}
+
 export const lineStyle = {
     type: 'line',
     layout: {
@@ -148,6 +161,7 @@ export const lineStyle = {
         'line-join': 'round'
     },
     paint: {
+        'line-color': '#ddd',
         'line-opacity': 0.8,
         'line-width': [
             "interpolate",
@@ -158,6 +172,9 @@ export const lineStyle = {
             20,
             2
         ]
+    },
+    layout: {
+        'visibility': 'none'
     }
 }
 

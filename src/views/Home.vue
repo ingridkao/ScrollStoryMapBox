@@ -4,28 +4,46 @@
 		<div class="main__scrollama" ref="scrollama_container">
 			<div class="step" data-step-no="0">
 				<div>
-					<h6>台北市交通事故統計資料</h6>
-					<p>數據來源為2019年ＸＸ局提供的交通事故</p>
-					<HistoryLineChart/>
+					<h6>通勤</h6>
+					<p>在台北上下班通勤有較多的交通運輸選擇項目，如捷運、公車、ubike、計程車以及自行開車；選擇騎車上下班的主要優點除了減少和人群接觸也節省轉車時間，但也增添了突發事故的風險。</p>
+					<p>底圖是2019年台北市交通局提供的事故統計資料2019年台北市交通局提供的事故統計資料，根據數據熱區可以看出事故經常發生在主要幹道上的路口。</p>
 				</div>
 			</div>
 			<div class="step" data-step-no="1">
-				<h6>事故發生的時間</h6>
-				<p>較容易發生在傍晚視線不佳的時間區段</p>
-				
-<!-- 
-				<h6>上下班</h6>
-				<p>可以上傳你的路線(僅geojson格式)</p> -->
-
+				<div>
+					<p>將這兩年上下班常行駛的道路軌跡疊加在地圖之上，可以發現行經路線風險差異，似乎在中山區那一段對於我來說是最容易發生事故的區段。</p>
+					<DistLineChart/>
+				</div>
 			</div>
 			<div class="step" data-step-no="2">
 				<div>
-					<h6>發生時間</h6>
-					<p></p>
+					<h6>氣候</h6>
+					<p>
+						一般來說氣候不佳會導致視線不佳以及煞車不及的事故發生，不過統計數據不同於預期，可能是因為駕駛人在晴朗天氣之下，相對於惡劣天氣情況較不注意道路情況，反而容易讓事故發生機率。
+						把數據與<a href="https://www.ntpc.gov.tw/ch/home.jsp?id=f165f60bfe5a0a96">平均降雨日</a>與事故發生機率，應該會得到會有更準確的結果。
+					</p>
+					<!-- <p>這兩年發生三次車禍，將其座標與2019年台北市交通局提供的事故統計資料重疊，看看事故風險的區域以及透過數據歸納出事故經常發生於哪些情況。</p> -->
+					<WeatherPieChart/>
+					<p>前言提到的車禍其中一次是在下班行駛到橋下，光線昏暗且當晚大雨視線不佳前面的機車突然緊急煞車因而摔車；另一次是在上班途中行駛在巷口被右方來車撞上。</p>
 				</div>
 			</div>
 			<div class="step" data-step-no="3">
 				<div>
+					<h6>事故易發生的時間區段</h6>
+					<p>統計了2019年事故發生的時間區段，數據指出大部分事故發生在傍晚視線不佳的時間區段。</p>
+					<HistoryLineChart/>
+
+				</div>
+			</div>
+			<div class="step" data-step-no="4">
+				<div>
+					<h6>事故發生道路類型</h6>
+					<p>道路限速與設計</p>
+				</div>
+			</div>
+			<div class="step" data-step-no="5">
+				<div>
+					<p>事故</p>
 					<p>交通事故區分為Ａ１、Ａ２、Ａ３類等三種：</p>
 					<ul>
 						<li>Ａ１類指造成人員當場或二十四小時內死亡之交通事故</li>
@@ -33,23 +51,9 @@
 						<li>Ａ３類指僅有車輛財物受損之交通事故</li>
 					</ul>
 				</div>
-				<div>
-					<h6>氣候</h6>
-					<p>這幾年曾經發生兩次車禍，一次在下班途中雨天橋下視線不佳，前面的機車突然緊急煞車因而煞不住車摔車，另一次是在上班途中行駛在巷口，右方來車</p>
-					<p>統計指出雨天視線不佳及冬天則是日照時間較短兩者影響視線較容易</p>
-					<span class="weather">晴</span>
-					<span class="weather">陰</span>
-					<span class="weather">雨</span>
-				</div>
-				<div>
-					<h6></h6>
-				</div>
-			</div>
-			<div class="step" data-step-no="4">
-				<div></div>
-			</div>
-			<div class="step" data-step-no="5">
-				<div>道路限速與設計</div>
+
+				<div>結語</div>
+				<p>除了自身對於車輛保養及駕駛當下的注意力狀態，希望地方政府可以對路況妥善優化，像是車輛隨意臨停問題、巷弄的反射鏡髒污處理及架設</p>
 			</div>
 		</div>
 	</main>
@@ -59,7 +63,9 @@
 import "intersection-observer"
 import scrollama from "scrollama"
 import MapBox from '@/components/MapBox.vue'
+import DistLineChart from '@/components/DistLineChart.vue'
 import HistoryLineChart from '@/components/HistoryLineChart.vue'
+import WeatherPieChart from '@/components/WeatherPieChart.vue'
 
 export default {
 	name: "Home",
@@ -77,7 +83,7 @@ export default {
 		};
 	},
 	components:{
-		MapBox,HistoryLineChart
+		MapBox,DistLineChart, HistoryLineChart, WeatherPieChart
 	},
 	computed: {
 		opts() {
@@ -142,8 +148,45 @@ export default {
 			}
 			p{
 				color: #8e8e8e;
+				font-size: 0.9rem;
+    			text-indent: 1.8rem;
+				line-height: 1.5rem;
+			}
+			a{
+				color: #ddd;
 			}
 		}
+	}
+}
+ul{
+	list-style-type: none;
+	padding: 0;
+}
+.iconList{
+	color: #ddd;
+	&:before{
+		content: '';
+		display: inline-block;
+		width: 0.5rem;
+		height: 0.5rem;
+		margin: 0 .5rem;
+		border-radius: 50%;
+		background: #ddd;
+	}
+	&.sun:before{
+		background: #cab138;
+	}
+	&.cloud:before{
+		background: #2ec7a5;
+	}
+	&.wind:before{
+		background: #f1839c;
+	}
+	&.rain:before{
+		background: #9fd7fd;
+	}
+	&.overrain:before{
+		background: #38adff;
 	}
 }
 </style>

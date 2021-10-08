@@ -5,7 +5,7 @@
 	</div>
 	<router-view/>
 	<footer id="main_footer">
-		<p>交通事故數據下載(geojson)</p>
+		<p>手繪路線工具：<a href="https://geojson.io/"></a></p>
 	</footer>
 </template>
 
