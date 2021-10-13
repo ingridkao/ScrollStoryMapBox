@@ -81,24 +81,68 @@ export const taipeiVillage = {
     }
 }
 
-export const taipeiAccident = {
+export const zoomCircleRadiusForShow = [
+    "interpolate",
+    ["linear"],
+    ["zoom"],
+    12.99,
+    1,
+    14,
+    1,
+    22,
+    6
+]
+
+export const zoomCircleRadiusForHeatMap = [
+    "interpolate",
+    ["linear"],
+    ["zoom"],
+    12.99,
+    0,
+    14,
+    1,
+    22,
+    6
+]
+
+export const taipeiAccidentStyle = {
     id: 'taipei_accident',
     source: 'taipei_accident',
     type: 'circle',
     paint: {
         'circle-color': '#32d0c2',
-        'circle-radius': [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            12.99,
-            0,
-            14,
-            1,
-            22,
-            6      
-        ]
+        'circle-radius': zoomCircleRadiusForHeatMap
     }
+}
+
+export const heatmapYearStyle = {
+    'heatmap-intensity': [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        10.99,
+        0,
+        11,
+        0.04,
+        15,
+        0.6
+    ],
+    'heatmap-radius': 10
+}
+
+export const heatmapMonthStyle = {
+    'heatmap-intensity': [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        10.99,
+        0,
+        11,
+        0.06,
+        15,
+        0.9
+    ],
+    'heatmap-radius': 15
 }
 
 export const taipeiAccidentHeat = {
@@ -106,6 +150,7 @@ export const taipeiAccidentHeat = {
     source: 'taipei_accident',
     type: 'heatmap',
     paint: {
+        ...heatmapYearStyle,
         'heatmap-opacity': [
             "interpolate",
             ["linear"],
@@ -115,18 +160,6 @@ export const taipeiAccidentHeat = {
             13.5,
             0.3
         ],
-        'heatmap-intensity': [
-            "interpolate",
-            ["linear"],
-            ["zoom"],
-            10.99,
-            0,
-            11,
-            0.04,
-            15,
-            0.6
-        ],
-        'heatmap-radius': 10,
         'heatmap-color': [
             "step",
             ["heatmap-density"],

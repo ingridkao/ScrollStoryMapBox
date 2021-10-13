@@ -1,14 +1,14 @@
 <template>
     <div class="loadingContainer" :class="{loadStart}">
         <div class="loadingBox">
-            <div :style="{'background-color': bgColor[currStep]}"/>
-            <div :style="{'background-color': bgColor[currStep]}"/>
-            <div :style="{'background-color': bgColor[currStep]}"/>
+            <div :style="{'background-color': sectionColor[currStep]}"/>
+            <div :style="{'background-color': sectionColor[currStep]}"/>
+            <div :style="{'background-color': sectionColor[currStep]}"/>
         </div>
     </div>
 </template>
 <script>
-import {bgColor} from '@/assets/config/page-style.js'
+import {sectionColor} from '@/assets/config/page-style.js'
 
 export default {
     props: {
@@ -23,7 +23,7 @@ export default {
     },
     data(){
         return {
-            bgColor
+            sectionColor
         }
     }
 }

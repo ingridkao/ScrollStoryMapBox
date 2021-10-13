@@ -2,35 +2,68 @@
     <highcharts :options="chartOptions" :class="{dark: darkMode}" class="highchartsBox"/>
 </template>
 <script>
+const tw_months = ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
 export default {
+    // props:{
+    //     active: {
+    //         type: Object,
+    //         default: () => ({})
+    //     }
+    // },
     data() {
         return {
             darkMode:true,
             chartOptions: {
-                chart: { type: "column" },
+                chart: { type: "spline" },
                 title: { text: "交通事故月份分佈" },
+                credits: {enabled: false },
                 xAxis: {
-                    categories: [
-                        "一月",
-                        "二月",
-                        "三月",
-                        "四月",
-                        "五月",
-                        "六月",
-                        "七月",
-                        "八月",
-                        "九月",
-                        "十月",
-                        "十一月",
-                        "十二月"
-                    ]
+                    categories: tw_months
+                    // categories: [
+                    //     "一月",//2-4722
+                    //     "二月",//4723-8136
+                    //     "三月",//8137-12306
+                    //     "四月",//12307-16451
+                    //     "五月",//16451-20719
+                    //     "六月",//20720-24636
+                    //     "七月",//24637-29110
+                    //     "八月",//29111-33335
+                    //     "九月",//33336-37691
+                    //     "十月",//37692-42356
+                    //     "十一月",//42357-47319
+                    //     "十二月"//47320-52430
+                    // ]
                 },
                 yAxis: {
                     title: { text: "件數" }
                 },
+                plotOptions: {
+                    series: {
+                        color: '#ad5a5a',
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: (e) => {
+                                    const {category, y} = e.point
+                                    const month_index = tw_months.findIndex(e => e === category)
+                                    const month = (month_index < 9 )? `0${month_index + 1}` : (month_index + 1) 
+                                    const yearMonth = this.$dayjs(`2019${month}`, 'YYYYMM')
+                                    const start = this.$dayjs(`2019${month}01`, 'YYYYMMDD')
+                                    const end = this.$dayjs(`2019${month}${yearMonth.daysInMonth()}`, 'YYYYMMDD')
+                                    this.$emit('update', {
+                                        category: category,
+                                        start: start.unix(),
+                                        end: end.unix(),
+                                        count: y
+                                    })
+                                }
+                            }
+                        }
+                    }
+                },
                 series: [{
                     name: "交通事故",
-                    data: [112, 218, 122, 225, 132, 235, 126, 118, 122, 225, 132, 235]
+                    data: [4721, 3413, 4169, 4144, 4267, 3916, 4473, 4224, 4355, 4664, 4962, 5110]
                 }]
             }
         }

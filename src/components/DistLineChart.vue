@@ -7,10 +7,19 @@ export default {
         return {
             darkMode:true,
             chartOptions: {
-                chart: { 
-                    type: "bar"  
+                chart: { type: "bar" },
+                credits: {enabled: false },
+                title: { 
+                    text: "交通事故發生區域",
+                    style: {
+                        fontSize: '12px'
+                    }
                 },
-                title: { text: "交通事故發生區域" },
+                plotOptions: {
+                    series: {
+                        color: '#718e93'
+                    }
+                },
                 xAxis: {
                     categories: [
                         "內湖",

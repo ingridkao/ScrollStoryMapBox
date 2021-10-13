@@ -13,6 +13,9 @@ export default {
                     plotBorderWidth: null,
                     plotShadow: false
                 },
+                credits: {
+                    enabled: false
+                },
                 title: { text: null },
                 plotOptions: {
                     pie: {
