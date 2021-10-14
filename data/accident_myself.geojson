@@ -1,0 +1,38 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+      {
+         "type": "Feature",
+         "geometry": {
+            "type": "Point",
+            "coordinates":  [121.53941720724106,25.077635685375263]
+         },
+         "properties": {
+         "OccurTime":"2019-01-01 00:50:00",
+         "Weather":"晴"
+         }
+      },
+      {
+         "type": "Feature",
+         "geometry": {
+            "type": "Point",
+            "coordinates":  [121.50422394275664,25.045814110303095]
+         },
+         "properties": {
+         "OccurTime":"2019-01-01 00:50:00",
+         "Weather":"晴"
+         }
+      },
+      {
+         "type": "Feature",
+         "geometry": {
+            "type": "Point",
+            "coordinates":  [121.50813728570937,25.05044803224529]
+         },
+         "properties": {
+         "OccurTime":"2019-01-01 00:50:00",
+         "Weather":"雨"
+         }
+      }
+   ]
+}
