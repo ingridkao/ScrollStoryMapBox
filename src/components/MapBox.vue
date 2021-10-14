@@ -6,13 +6,16 @@
     </main>
 </template>
 <script>
+import { createApp, defineComponent, nextTick } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import axios from 'axios'
+
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 import mapStyle,{ buildingsIn3D, taipeiTown, taipeiVillage, taipeiAccidentStyle, heatmapYearStyle, heatmapMonthStyle, taipeiAccidentHeat, lineStyle, pointStyle, zoomCircleRadiusForShow, zoomCircleRadiusForHeatMap } from '@/assets/config/mapbox-style.js'
 
 import Loading from '@/components/Loading.vue'
+import MapboxPopup from '@/components/MapboxPopup.vue'
 
 const MAPBOXTOKEN = process.env.VUE_APP_MAPBOXTOKEN
 const BASE_URL = process.env.NODE_ENV === 'production'? 'https://ingridkao.github.io/ScrollStoryMapBox': '../..'
@@ -36,7 +39,7 @@ export default {
     },
     destroyed(){},
 	components:{
-		Loading
+		Loading, MapboxPopup
 	},
     props: {
         currStep: {
@@ -161,17 +164,29 @@ export default {
 
                 this.MapBoxObject.addSource('my_accident', { type: 'geojson', data: res8.data }).addLayer(pointStyle)
             }))
+
+            this.MapBoxObject.on('click', 'taipei_accident', (e) => {
+                const featuresData = e.features
+
+                new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML('<div id="popup-content"></div>')
+                .addTo(this.MapBoxObject)
+                const defindPopup = defineComponent({
+                    extends: MapboxPopup,
+                    setup() {
+                        return { featuresData}
+                    }
+                })
+                nextTick(() => { createApp(defindPopup).mount("#popup-content") }
+            )})
             this.MapBoxObject.on("click", (event) => {
                 this.MapBoxObject.getCanvas().style.cursor = 'pointer'
-                // this.clickFeatureDatas = this.MapBoxObject.queryRenderedFeatures(event.point, { layers: this.mapDisplayLayers })
-                // if(this.clickFeatureDatas.length > 0){
-                //     this.mapboxPopupGetInfo(event)
-                // }
                 // console.log( this.MapBoxObject.getBounds())
-                console.log( this.MapBoxObject.getCenter())
+                // console.log( this.MapBoxObject.getCenter())
                 // console.log( this.MapBoxObject.getBearing())
                 // console.log( this.MapBoxObject.getPitch())
-                console.log( this.MapBoxObject.getZoom())
+                // console.log( this.MapBoxObject.getZoom())
                 // console.log(JSON.stringify(event.lngLat.wrap()))
             })
         },
@@ -218,11 +233,13 @@ export default {
                         .setPaintProperty('taipei_accident', 'circle-radius', zoomCircleRadiusForHeatMap)
                     }
 
-                    this.MapBoxObject
-                    .setBearing(0)
-                    .setPitch(0)
-                    .panTo(locations_center.init)
-                    .zoomTo(initZoom, {duration: 5000})
+                    this.MapBoxObject.easeTo({
+                        center: locations_center.init,
+                        bearing: 0,
+                        pitch: 0,
+                        zoom: initZoom,
+                        duration: 5000
+                    })
                     break
                 case '1':
                     this.toggleHeatMap(true)
@@ -238,7 +255,7 @@ export default {
                         center: locations_center.accident_myself,
                         bearing: 15,
                         pitch: 60,
-                        zoom: 12.5,
+                        zoom: initZoom + 1,
                         duration: 5000
                     })
                     break;
@@ -265,7 +282,7 @@ export default {
                         center: [121.527091458163, 25.06582409471467],
                         bearing: 45,
                         pitch: 75,
-                        zoom:13,
+                        zoom: initZoom + 1.5,
                         duration: 5000
                     })
                     break;
@@ -282,7 +299,7 @@ export default {
                         center: locations_center.init,
                         bearing: 0,
                         pitch: 0,
-                        zoom: 12,
+                        zoom: initZoom + 0.5,
                         duration: 5000
                     })
                     break;
@@ -308,11 +325,13 @@ export default {
                         center: locations_center.accident_myself,
                         bearing: 0,
                         pitch: 0,
-                        zoom: 13,
+                        zoom: initZoom + 1.5,
                         duration: 5000
                     })
                     break;
                 case '5':
+                    this.toggleWorkTrackPath(true, false)
+                    this.toggleWorkoffTrackPath(true, false)
                     if(this.MapBoxObject.getLayer('taipei_accident')){
                         this.MapBoxObject
                         .setPaintProperty('taipei_accident', 'circle-color', 
@@ -331,19 +350,15 @@ export default {
                     this.MapBoxObject.easeTo({
                         center: locations_center.center,
                         bearing: -40,
-                        pitch: 85,
-                        zoom: 14,
+                        pitch: 60,
+                        zoom: initZoom + 2,
                         duration: 5000
                     })
-                    // const camera = this.MapBoxObject.getFreeCameraOptions();
-                    // camera.setPitchBearing(80, 90);
-                    // this.MapBoxObject.setFreeCameraOptions(camera);
                     break;
                 default:
                     break;
             }
-        },
-        
+        }
     }
 }
 </script>
